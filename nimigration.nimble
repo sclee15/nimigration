@@ -8,6 +8,5 @@ srcDir        = "src"
 
 
 # Dependencies
-
 requires "nim >= 1.4.0"
 requires "allographer >= 0.13.6"
