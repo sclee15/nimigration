@@ -5,6 +5,13 @@ var upExcupted = false
 
 migration Migration001:
   upExcupted = true
+  schema([
+    table("yo1", [
+      Column().increments("id"),
+      Column().string("name"),
+      Column().foreign("auth_id").reference("id").on("auth").onDelete(SET_NULL)
+    ])
+  ])
 
 test "migration won't happen twice":
   let migrations = @[
