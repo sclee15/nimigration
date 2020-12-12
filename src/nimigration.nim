@@ -2,10 +2,12 @@ import json
 import allographer/schema_builder
 import allographer/query_builder
 
+export schema_builder
+
 type
   Migration* = ref object of RootObj
 
-method up(this: Migration) {.base.} =
+method up(this: Migration) {.base, locks: "unknown".} =
   echo "up migration"
 method down(this: Migration) {.base.} =
   echo "down migration"
@@ -29,13 +31,8 @@ proc migrate*(migrations: seq) =
       .orderBy("id", Order.Asc)
       .first()
     if executed.kind == JNull:
-      echo "up"
-      echo migration_name
       m.up()
       rdb().table("migrations").insert(%*{"name": migration_name})
-    else:
-      echo "pass"
-      echo migration_name
 
 template migration*(migration_name: untyped, u: untyped): untyped =
   type
