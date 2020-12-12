@@ -5,7 +5,7 @@ import allographer/query_builder
 type
   Migration* = ref object of RootObj
 
-method up(this: Migration) {.base, locks: "unknown".} =
+method up(this: Migration) {.base.} =
   echo "up migration"
 method down(this: Migration) {.base.} =
   echo "down migration"

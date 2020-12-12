@@ -1,13 +1,18 @@
-# This is just an example to get you started. You may wish to put all of your
-# tests into a single file, or separate them into multiple `test1`, `test2`
-# etc. files (better names are recommended, just make sure the name starts with
-# the letter 't').
-#
-# To run these tests, simply execute `nimble test`.
-
 import unittest
+import nimigration
 
-# import nimigration
+var upExcupted = false
 
-test "todo":
-  check 1 == 1
+migration Migration001:
+  upExcupted = true
+
+test "migration won't happen twice":
+  let migrations = @[
+    Migration001()
+  ]
+  migrate(migrations)
+  check(upExcupted == true)
+  upExcupted = false
+  migrate(migrations)
+  check(upExcupted == false)
+  # this is false because same migration will not gonna be executed again
